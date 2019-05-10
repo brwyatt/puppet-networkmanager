@@ -12,6 +12,7 @@ define networkmanager::wifi (
   $mode                   = 'infrastructure',
   $mac_address            = undef,
   $autoconnect            = true,
+  $hidden                 = undef,
   $ipv4_method            = 'auto',
   $ipv6_method            = 'auto',
   $ipv6_addr_gen_mode     = 'stable-privacy',
@@ -80,6 +81,14 @@ define networkmanager::wifi (
       section => '802-11-wireless',
       setting => 'ssid',
       value   => $ssid,
+    }
+
+    if $hidden {
+      ini_setting { "${name}/802-11-wireless/hidden":
+        section => '802-11-wireless',
+        setting => 'hidden',
+        value   => $hidden,
+      }
     }
 
     ini_setting { "${name}/802-11-wireless/mode":
